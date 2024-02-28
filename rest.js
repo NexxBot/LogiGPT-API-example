@@ -1,14 +1,25 @@
 const axios = require('axios').default;
 
-axios.post("http://geppetto.top:5001/message/session", {
+// const host = "localhost";
+const host = "geppetto.top";
+const LOGIKEY = "<OUR_LOGI_KEY>";
 
+axios.post("http://" + host + ":5001/message/session", {}, {
+    headers: {
+        Cookie: 'LOGI_KEY=' + LOGIKEY,
+    },
 }).then(async function (response) {
     console.log(response.data);
-    message_response = await axios.post("http://geppetto.top:5001/message/", {
+    message_response = await axios.post("http://" + host + ":5001/message/", {
         text: "有多少货物", 
         session_id: response.data.session_id,
         lang: 'zh_CN' // Options: en_HK, zh_HK
-    }, {responseType: 'stream'})
+    }, {
+        responseType: 'stream',
+        headers: {
+            Cookie: 'LOGI_KEY=' + LOGIKEY,
+        }
+    })
 
     const stream = message_response.data;
 

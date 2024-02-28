@@ -1,6 +1,14 @@
 const io = require("socket.io-client");
 
-const socket = io("http://geppetto.top:5001");
+// const host = "localhost";
+const host = "geppetto.top";
+const LOGIKEY = "<OUR_LOGI_KEY>";
+
+const socket = io("http://" + host + ":5001", {
+    auth: {
+      LOGI_KEY: LOGIKEY
+    }
+  });
 
 socket.emit("session", "");
 
