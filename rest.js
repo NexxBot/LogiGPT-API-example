@@ -1,9 +1,8 @@
 const axios = require('axios').default;
 
-const host = "localhost";
-// const host = "geppetto.top";
-// const LOGIKEY = "<OUR_LOGI_KEY>";
-const LOGIKEY = "LLLOGI";
+// const host = "localhost";
+const host = "geppetto.top";
+const LOGIKEY = "<OUR_LOGI_KEY>";
 
 axios.post("http://" + host + ":5001/message/session", {}, {
     headers: {
