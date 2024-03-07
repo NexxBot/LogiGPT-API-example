@@ -23,4 +23,7 @@ socket.on("session", (data) => {
 
 socket.on("message", (data) => {
     console.log(JSON.stringify(data));
+    if (data.status == 2 && data.has_more_to_visualize) {
+      socket.emit("visualization", {message_id: data.id});
+    }
 })
