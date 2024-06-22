@@ -1,8 +1,8 @@
 const axios = require('axios').default;
 
 // const host = "localhost";
-const host = "geppetto.top";
-const LOGIKEY = "<OUR_LOGI_KEY>";
+const host = "127.0.0.1";
+const LOGIKEY = "LLLLOGI";
 
 axios.post("http://" + host + ":5001/message/session", {}, {
     headers: {
@@ -11,9 +11,9 @@ axios.post("http://" + host + ":5001/message/session", {}, {
 }).then(async function (response) {
     console.log(JSON.stringify(response.data));
     message_response = await axios.post("http://" + host + ":5001/message/", {
-        text: "每种deviceType各有多少device",
+        text: "How many devices of each device type?",
         session_id: response.data.data.session_id,
-        lang: 'zh_CN' // Options: en_HK, zh_HK
+        lang: 'en_HK' // Options: en_HK, zh_HK
     }, {
         responseType: 'stream',
         headers: {
@@ -29,8 +29,8 @@ axios.post("http://" + host + ":5001/message/session", {}, {
         console.log(message);
         message = JSON.parse(message);
         message_id = message.data.id;
-        // 可以以消息状态变为2作为结束的标识，也可以以流结束作为结束标识
-        // 如果有更多可视化图表则可视化
+        可以以消息状态变为2作为结束的标识，也可以以流结束作为结束标识
+        如果有更多可视化图表则可视化
         if (message.data.status == 2 && message.data.has_more_to_visualize == true) {
             axios.post("http://" + host + ":5001/message/visualization", {
                 message_id: message.data.id,
@@ -40,8 +40,19 @@ axios.post("http://" + host + ":5001/message/session", {}, {
                 }
             }).then((response) => {
                 console.log(JSON.stringify(response.data));
+                axios.post("http://" + host + ":5001/message/prediction", {
+                    message_id: message.data.id,
+                }, {
+                    headers: {
+                        Cookie: 'LOGI_KEY=' + LOGIKEY,
+                    }
+                }).then((response) => {
+                    console.log(JSON.stringify(response.data));
+                    
+                })
             })
         }
+
     });
 
     stream.on('end', () => {
