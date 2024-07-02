@@ -10,7 +10,7 @@ axios.post("http://" + host + ":5001/message/session", {}, {
     },
 }).then(async function (response) {
     console.log(JSON.stringify(response.data));
-    message_response = await axios.post("http://" + host + ":5001/message/", {
+    message_response = await axios.post("http://" + host + ":5002/v0_2/message/", {
         text: "How many devices of each device type?",
         session_id: response.data.data.session_id,
         lang: 'en_HK' // Options: en_HK, zh_HK
@@ -32,7 +32,7 @@ axios.post("http://" + host + ":5001/message/session", {}, {
         // 可以以消息状态变为2作为结束的标识，也可以以流结束作为结束标识
         // 如果有更多可视化图表则可视化
         if (message.data.status == 2 && message.data.has_more_to_visualize == true) {
-            axios.post("http://" + host + ":5001/message/visualization", {
+            axios.post("http://" + host + ":5002/v0_2/message/visualization", {
                 message_id: message.data.id,
             }, {
                 headers: {
@@ -40,8 +40,8 @@ axios.post("http://" + host + ":5001/message/session", {}, {
                 }
             }).then((response) => {
                 console.log(JSON.stringify(response.data));
-                axios.post("http://" + host + ":5001/message/prediction", {
-                    message_id: message.data.id,
+                axios.post("http://" + host + "5002/v0_2/message/prediction", {
+                    session_id: message.data.id,
                 }, {
                     headers: {
                         Cookie: 'LOGI_KEY=' + LOGIKEY,
